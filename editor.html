@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Editor — ARG Point & Click</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="editor-page">
+  <header class="editor-topbar">
+    <div class="editor-brand">
+      <a href="index.html" class="back-link">← Menu</a>
+      <span class="divider"></span>
+      <strong id="editorGameName">NOME DO JOGO</strong>
+      <span id="saveStatus" class="save-status">Guardado</span>
+    </div>
+    <div class="editor-actions">
+      <button id="undoBtn" class="tool-btn" title="Ctrl+Z">↶</button>
+      <button id="redoBtn" class="tool-btn" title="Ctrl+Y">↷</button>
+      <button id="exportBtn" class="secondary-btn">EXPORTAR</button>
+      <label class="secondary-btn import-label">IMPORTAR<input id="importInput" type="file" accept=".json,application/json" hidden></label>
+      <button id="testBtn" class="primary-btn">▶ TESTAR</button>
+    </div>
+  </header>
+
+  <main class="editor-grid">
+    <aside class="editor-sidebar left">
+      <div class="sidebar-tabs">
+        <button class="sidebar-tab active" data-left-tab="scenes">CENAS</button>
+        <button class="sidebar-tab" data-left-tab="items">ITENS</button>
+        <button class="sidebar-tab" data-left-tab="dialogues">DIÁLOGOS</button>
+        <button class="sidebar-tab" data-left-tab="variables">VAR</button>
+      </div>
+
+      <section id="left-scenes" class="left-tab active">
+        <div class="side-section">
+          <div class="side-title">
+            <span>AMBIENTES</span>
+            <button id="addEnvironmentBtn" class="mini-btn">+</button>
+          </div>
+          <div id="environmentList" class="tree-list"></div>
+        </div>
+        <div class="side-section">
+          <div class="side-title">
+            <span>VISTAS</span>
+            <button id="addViewBtn" class="mini-btn">+</button>
+          </div>
+          <div id="viewList" class="tree-list"></div>
+        </div>
+      </section>
+
+      <section id="left-items" class="left-tab">
+        <div class="side-section">
+          <div class="side-title"><span>ITENS</span><button id="addItemBtn" class="mini-btn">+</button></div>
+          <div id="itemList" class="tree-list"></div>
+        </div>
+        <div class="side-section">
+          <div class="side-title"><span>COMBINAÇÕES</span><button id="addCombinationBtn" class="mini-btn">+</button></div>
+          <div id="combinationList" class="tree-list"></div>
+        </div>
+      </section>
+
+      <section id="left-dialogues" class="left-tab">
+        <div class="side-section">
+          <div class="side-title"><span>DIÁLOGOS</span><button id="addDialogueBtn" class="mini-btn">+</button></div>
+          <div id="dialogueList" class="tree-list"></div>
+        </div>
+      </section>
+
+      <section id="left-variables" class="left-tab">
+        <div class="side-section">
+          <div class="side-title"><span>VARIÁVEIS</span><button id="addVariableBtn" class="mini-btn">+</button></div>
+          <div id="variableList" class="tree-list"></div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="editor-workspace">
+      <div class="workspace-toolbar">
+        <div>
+          <span id="workspaceEnvironment">Ambiente</span>
+          <strong id="workspaceView">Vista</strong>
+        </div>
+        <div class="toolbar-right">
+          <button id="addHotspotBtn" class="secondary-btn">+ HOTSPOT</button>
+          <button id="deleteHotspotBtn" class="tool-btn" title="Delete">🗑</button>
+        </div>
+      </div>
+
+      <div class="scene-editor-scroll">
+        <div id="sceneEditorFrame" class="scene-editor-frame">
+          <img id="editorSceneImage" alt="">
+          <div id="editorSceneFallback" class="scene-fallback">
+            <div>🖼️</div>
+            <strong>Cola um link de imagem na vista</strong>
+          </div>
+          <div id="editorHotspotLayer" class="editor-hotspot-layer"></div>
+        </div>
+      </div>
+
+      <div class="editor-bottom-tabs">
+        <button class="bottom-tab active" data-bottom-tab="hotspots">Hotspots</button>
+        <button class="bottom-tab" data-bottom-tab="actions">Ajuda</button>
+      </div>
+      <div class="bottom-panel">
+        <div id="bottom-hotspots" class="bottom-content active">
+          <div id="hotspotTable" class="hotspot-table"></div>
+        </div>
+        <div id="bottom-actions" class="bottom-content">
+          <div class="help-grid">
+            <div><strong>1.</strong> Cria um ambiente.</div>
+            <div><strong>2.</strong> Cria várias vistas com URLs de imagem.</div>
+            <div><strong>3.</strong> Desenha hotspots por cima da imagem.</div>
+            <div><strong>4.</strong> Define o que acontece ao clicar.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="editor-sidebar right">
+      <div class="sidebar-tabs">
+        <button class="sidebar-tab active" data-right-tab="inspector">INSPECTOR</button>
+        <button class="sidebar-tab" data-right-tab="game">JOGO</button>
+      </div>
+
+      <section id="right-inspector" class="right-tab active">
+        <div id="inspectorEmpty" class="side-section">
+          <div class="eyebrow">INSPECTOR</div>
+          <h3>Nada selecionado</h3>
+          <p class="hint">Seleciona um ambiente, vista, hotspot, item, combinação, diálogo ou variável.</p>
+        </div>
+        <div id="inspectorContent" class="side-section hidden"></div>
+      </section>
+
+      <section id="right-game" class="right-tab">
+        <div class="side-section">
+          <div class="eyebrow">JOGO</div>
+          <label>Nome do jogo<input id="gameNameInput"></label>
+          <label>Ambiente inicial<select id="startEnvironmentSelect"></select></label>
+          <label>Vista inicial<select id="startViewSelect"></select></label>
+          <label class="checkbox-row"><input id="showHotspotOutlinesInput" type="checkbox"> Mostrar zonas ao passar o rato</label>
+          <label class="checkbox-row"><input id="showButtonListInput" type="checkbox"> Mostrar lista de botões abaixo da imagem</label>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>

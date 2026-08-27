@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ARG Point & Click</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="menu-page">
+  <main class="menu-shell">
+    <div class="menu-card">
+      <div class="menu-kicker">INTERACTIVE EXPERIENCE</div>
+      <h1 id="gameTitle">NOME DO JOGO</h1>
+      <div class="menu-actions">
+        <button id="playBtn" class="big-btn primary">JOGAR</button>
+        <button id="loadBtn" class="big-btn">ENTRAR COM SAVE</button>
+        <button id="editBtn" class="big-btn admin-only hidden">EDITAR JOGO</button>
+      </div>
+      <div id="adminStatus" class="admin-status hidden">
+        <span>Modo administrador ativo</span>
+        <button id="logoutBtn">Sair</button>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="loadDialog" class="modal">
+    <form id="loadForm">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">CARREGAR PROGRESSO</div>
+          <h2>Entrar com save</h2>
+        </div>
+        <button type="button" id="closeLoadDialog" class="icon-btn">✕</button>
+      </div>
+      <label>Código de save
+        <textarea id="saveCodeInput" rows="6" placeholder="Cola aqui o teu código..." required></textarea>
+      </label>
+      <div id="loadError" class="error-text"></div>
+      <div class="modal-actions">
+        <button type="button" id="cancelLoadBtn" class="secondary-btn">Cancelar</button>
+        <button type="submit" class="primary-btn">Entrar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+</html>

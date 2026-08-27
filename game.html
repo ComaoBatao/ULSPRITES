@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jogo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="game-page">
+  <main class="game-layout">
+    <section class="scene-column">
+      <div class="game-topbar">
+        <div>
+          <strong id="gameName">Jogo</strong>
+          <span id="locationName">Local</span>
+        </div>
+        <div class="game-top-actions">
+          <button id="saveBtn" class="ghost-btn">SAVE</button>
+          <a href="index.html" class="ghost-btn">MENU</a>
+        </div>
+      </div>
+
+      <div id="sceneFrame" class="scene-frame">
+        <img id="sceneImage" alt="Ambiente">
+        <div id="hotspotLayer" class="hotspot-layer"></div>
+        <div id="sceneFallback" class="scene-fallback hidden">
+          <div>🖼️</div>
+          <strong>Adiciona uma imagem a esta vista</strong>
+        </div>
+        <div id="hoverLabel" class="hover-label hidden"></div>
+      </div>
+
+      <div id="buttonActions" class="button-actions"></div>
+    </section>
+
+    <aside class="inventory-panel">
+      <div class="inventory-head">
+        <div>
+          <div class="eyebrow">INVENTÁRIO</div>
+          <h2>Itens</h2>
+        </div>
+        <button id="clearSelectionBtn" class="mini-btn hidden">✕</button>
+      </div>
+      <div id="selectedItemInfo" class="selected-item-info hidden"></div>
+      <div id="inventoryGrid" class="inventory-grid"></div>
+      <div class="inventory-help">Clica num item para o selecionar. Clica noutro item para tentar combiná-los.</div>
+    </aside>
+  </main>
+
+  <dialog id="dialogModal" class="dialog-modal">
+    <div class="dialog-card">
+      <div id="dialogSpeaker" class="dialog-speaker"></div>
+      <div id="dialogText" class="dialog-text"></div>
+      <div id="dialogChoices" class="dialog-choices"></div>
+      <button id="dialogContinueBtn" class="primary-btn">CONTINUAR</button>
+    </div>
+  </dialog>
+
+  <dialog id="messageModal" class="modal small">
+    <div class="message-card">
+      <div id="messageText"></div>
+      <button id="messageCloseBtn" class="primary-btn">OK</button>
+    </div>
+  </dialog>
+
+  <dialog id="imageModal" class="modal image-modal">
+    <div class="image-modal-inner">
+      <img id="imageModalImg" alt="">
+      <button id="imageModalClose" class="primary-btn">VOLTAR</button>
+    </div>
+  </dialog>
+
+  <dialog id="saveDialog" class="modal">
+    <div class="save-card">
+      <div class="eyebrow">SAVE</div>
+      <h2>Guarda este código</h2>
+      <p>Podes usá-lo mais tarde em <strong>ENTRAR COM SAVE</strong>.</p>
+      <textarea id="generatedSaveCode" rows="7" readonly></textarea>
+      <div class="modal-actions">
+        <button id="copySaveBtn" class="secondary-btn">Copiar</button>
+        <button id="closeSaveBtn" class="primary-btn">Fechar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

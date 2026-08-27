@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin — ARG Point & Click</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-page">
+  <main class="admin-login-shell">
+    <form id="adminForm" class="admin-login-card">
+      <div class="eyebrow">ADMIN</div>
+      <h1>Entrar no editor</h1>
+      <p>Esta versão usa autenticação local apenas para protótipo.</p>
+      <label>Palavra-passe
+        <input id="passwordInput" type="password" autocomplete="current-password" required>
+      </label>
+      <div id="adminError" class="error-text"></div>
+      <button class="primary-btn full" type="submit">ENTRAR</button>
+      <a class="back-link centered" href="index.html">← Voltar ao menu</a>
+    </form>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
