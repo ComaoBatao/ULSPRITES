@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Editor — ARG Game Engine</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="editor-body">
+  <header class="editor-topbar">
+    <div class="brand-line">
+      <a class="back-link" href="index.html">← Projetos</a>
+      <span class="divider"></span>
+      <strong id="projectTitle">Projeto</strong>
+      <span id="saveStatus" class="save-status">Guardado</span>
+    </div>
+
+    <div class="top-actions">
+      <button id="undoBtn" class="tool-btn" title="Ctrl+Z">↶</button>
+      <button id="redoBtn" class="tool-btn" title="Ctrl+Y">↷</button>
+      <button id="gridBtn" class="secondary-btn active"># Grid</button>
+      <button id="playBtn" class="primary-btn">▶ Testar</button>
+    </div>
+  </header>
+
+  <main class="editor-layout">
+    <aside class="left-panel panel">
+      <div class="tabs">
+        <button class="tab active" data-tab="hierarchy">Hierarchy</button>
+        <button class="tab" data-tab="assets">Assets</button>
+        <button class="tab" data-tab="maps">Maps</button>
+      </div>
+
+      <section id="tab-hierarchy" class="tab-content active">
+        <div class="panel-section compact">
+          <div class="section-row">
+            <div class="eyebrow">ENTIDADES</div>
+            <button id="addEntityQuickBtn" class="mini-btn">+</button>
+          </div>
+          <div id="hierarchyList" class="hierarchy-list"></div>
+        </div>
+
+        <div class="panel-section compact">
+          <div class="eyebrow">ADICIONAR</div>
+          <div class="tool-grid">
+            <button class="add-entity-btn" data-type="wall">🧱<span>Parede</span></button>
+            <button class="add-entity-btn" data-type="object">📦<span>Objeto</span></button>
+            <button class="add-entity-btn" data-type="npc">👤<span>NPC</span></button>
+            <button class="add-entity-btn" data-type="door">🚪<span>Porta</span></button>
+            <button class="add-entity-btn" data-type="trigger">◫<span>Trigger</span></button>
+            <button class="add-entity-btn" data-type="light">💡<span>Luz</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-assets" class="tab-content">
+        <div class="panel-section compact">
+          <div class="section-row">
+            <div>
+              <div class="eyebrow">ASSET LIBRARY</div>
+              <div class="tiny">PNG / JPG / WEBP / GIF</div>
+            </div>
+            <label class="mini-btn upload-btn">+
+              <input id="assetUploadInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden>
+            </label>
+          </div>
+          <div id="assetGrid" class="asset-grid"></div>
+          <p class="hint">No protótipo os assets ficam guardados no navegador. Mais tarde mudamos para Firebase Storage.</p>
+        </div>
+      </section>
+
+      <section id="tab-maps" class="tab-content">
+        <div class="panel-section compact">
+          <div class="section-row">
+            <div class="eyebrow">MAPAS</div>
+            <button id="newMapBtn" class="mini-btn">+</button>
+          </div>
+          <div id="mapList" class="map-list"></div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="workspace-toolbar">
+        <div class="toolbar-group">
+          <button id="selectToolBtn" class="tool-btn active" title="Selecionar (V)">↖</button>
+          <button id="deleteBtn" class="tool-btn" title="Delete">🗑</button>
+          <button id="duplicateBtn" class="tool-btn" title="Ctrl+D">⧉</button>
+          <span class="divider"></span>
+          <button id="layerUpBtn" class="tool-btn" title="Subir layer">↑</button>
+          <button id="layerDownBtn" class="tool-btn" title="Descer layer">↓</button>
+        </div>
+        <div class="workspace-info">
+          <strong id="workspaceMapName">Mapa</strong>
+          <span id="zoomLabel">100%</span>
+        </div>
+      </div>
+
+      <div id="viewport" class="viewport">
+        <div id="mapCanvas" class="map-canvas">
+          <div id="gridLayer" class="grid-layer"></div>
+          <div id="entityLayer" class="entity-layer"></div>
+        </div>
+      </div>
+
+      <div class="statusbar">
+        <span>Arrastar: mover · canto inferior direito: redimensionar · Delete: apagar · Ctrl+Z/Y: histórico</span>
+        <span id="selectionStatus">Nada selecionado</span>
+      </div>
+    </section>
+
+    <aside class="right-panel panel">
+      <div class="tabs">
+        <button class="tab active" data-inspector-tab="inspector">Inspector</button>
+        <button class="tab" data-inspector-tab="project">Project</button>
+      </div>
+
+      <section id="inspector-inspector" class="inspector-content active">
+        <div id="noSelection" class="panel-section">
+          <div class="eyebrow">INSPECTOR</div>
+          <h3>Nada selecionado</h3>
+          <p class="hint">Seleciona uma entidade no mapa ou na hierarchy.</p>
+        </div>
+
+        <div id="entityInspector" class="panel-section hidden">
+          <div class="section-row">
+            <div>
+              <div class="eyebrow" id="entityTypeLabel">ENTITY</div>
+              <h3 id="entityInspectorTitle">Entidade</h3>
+            </div>
+          </div>
+
+          <label>Nome
+            <input id="entityNameInput">
+          </label>
+
+          <div class="two-cols">
+            <label>X<input id="entityXInput" type="number"></label>
+            <label>Y<input id="entityYInput" type="number"></label>
+          </div>
+
+          <div class="two-cols">
+            <label>Largura<input id="entityWidthInput" type="number" min="4"></label>
+            <label>Altura<input id="entityHeightInput" type="number" min="4"></label>
+          </div>
+
+          <label>Layer
+            <input id="entityLayerInput" type="number">
+          </label>
+
+          <label class="checkbox-row">
+            <input id="entityCollisionInput" type="checkbox"> Colisão
+          </label>
+
+          <label class="checkbox-row">
+            <input id="entityVisibleInput" type="checkbox"> Visível
+          </label>
+
+          <label>Sprite
+            <select id="entitySpriteSelect"></select>
+          </label>
+
+          <label>Cor fallback
+            <input id="entityColorInput" type="color">
+          </label>
+
+          <div id="characterFields" class="subsection hidden">
+            <div class="eyebrow">PERSONAGEM</div>
+            <label>Nome exibido
+              <input id="characterDisplayNameInput">
+            </label>
+            <label>Texto ao interagir
+              <textarea id="interactionTextInput" rows="3" placeholder="Ex.: Você não devia estar aqui..."></textarea>
+            </label>
+          </div>
+
+          <div id="doorFields" class="subsection hidden">
+            <div class="eyebrow">PORTA</div>
+            <label>Mapa de destino
+              <select id="doorTargetMapSelect"></select>
+            </label>
+          </div>
+
+          <div id="lightFields" class="subsection hidden">
+            <div class="eyebrow">LUZ</div>
+            <label>Raio
+              <input id="lightRadiusInput" type="number" min="20" max="1000">
+            </label>
+            <label>Intensidade
+              <input id="lightIntensityInput" type="range" min="0" max="1" step="0.05">
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section id="inspector-project" class="inspector-content">
+        <div class="panel-section">
+          <div class="eyebrow">PROJETO</div>
+          <label>Nome do jogo
+            <input id="projectNameInput">
+          </label>
+          <label>Protagonista
+            <input id="protagonistNameInput">
+          </label>
+          <label>Sprite do protagonista
+            <select id="playerSpriteSelect"></select>
+          </label>
+
+          <div class="two-cols">
+            <label>Largura<input id="playerWidthInput" type="number" min="8"></label>
+            <label>Altura<input id="playerHeightInput" type="number" min="8"></label>
+          </div>
+
+          <label>Velocidade
+            <input id="playerSpeedInput" type="number" min="20" max="1000">
+          </label>
+          <label>Cor fallback
+            <input id="playerColorInput" type="color">
+          </label>
+        </div>
+
+        <div class="panel-section">
+          <div class="eyebrow">MAPA ATUAL</div>
+          <label>Nome
+            <input id="mapNameInput">
+          </label>
+          <div class="two-cols">
+            <label>Largura<input id="mapWidthInput" type="number" min="320"></label>
+            <label>Altura<input id="mapHeightInput" type="number" min="240"></label>
+          </div>
+          <label>Fundo
+            <input id="mapBackgroundInput" type="color">
+          </label>
+          <div class="two-cols">
+            <label>Spawn X<input id="spawnXInput" type="number"></label>
+            <label>Spawn Y<input id="spawnYInput" type="number"></label>
+          </div>
+          <button id="centerSpawnBtn" class="secondary-btn full">Centrar spawn</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <dialog id="newMapDialog" class="modal">
+    <form id="newMapForm">
+      <div class="modal-head">
+        <div><div class="eyebrow">NOVO MAPA</div><h2>Criar mapa</h2></div>
+        <button type="button" id="closeMapDialogBtn" class="icon-btn">✕</button>
+      </div>
+      <label>Nome<input id="newMapNameInput" value="Novo Mapa" required></label>
+      <div class="modal-actions">
+        <button type="button" id="cancelMapBtn" class="secondary-btn">Cancelar</button>
+        <button type="submit" class="primary-btn">Criar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/storage.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
