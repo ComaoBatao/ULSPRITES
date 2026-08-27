@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Editor — ARG Game Engine</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="editor-body">
+  <header class="editor-topbar">
+    <div class="brand-line">
+      <a href="index.html" class="back-link">← Projetos</a>
+      <span class="divider"></span>
+      <strong id="projectTitle">Projeto</strong>
+      <span id="saveStatus" class="save-status">Guardado</span>
+    </div>
+
+    <div class="top-actions">
+      <button id="centerPlayerBtn" class="secondary-btn">Centrar jogador</button>
+      <button id="playBtn" class="primary-btn">▶ Testar jogo</button>
+    </div>
+  </header>
+
+  <main class="editor-layout">
+    <aside class="panel left-panel">
+      <div class="panel-section">
+        <div class="eyebrow">PROJETO</div>
+        <label>
+          Nome
+          <input id="projectNameInput" />
+        </label>
+      </div>
+
+      <div class="panel-section">
+        <div class="eyebrow">MAPA</div>
+        <label>
+          Nome
+          <input id="mapNameInput" />
+        </label>
+
+        <div class="two-cols">
+          <label>
+            Largura
+            <input id="mapWidthInput" type="number" min="320" max="4000" step="32" />
+          </label>
+          <label>
+            Altura
+            <input id="mapHeightInput" type="number" min="240" max="4000" step="32" />
+          </label>
+        </div>
+
+        <label>
+          Cor do fundo
+          <input id="backgroundColorInput" type="color" />
+        </label>
+      </div>
+
+      <div class="panel-section">
+        <div class="eyebrow">JOGADOR</div>
+        <label>
+          Velocidade
+          <input id="playerSpeedInput" type="number" min="40" max="800" step="10" />
+        </label>
+
+        <label>
+          Tamanho
+          <input id="playerSizeInput" type="number" min="8" max="128" step="2" />
+        </label>
+
+        <label>
+          Cor
+          <input id="playerColorInput" type="color" />
+        </label>
+
+        <p class="hint">Arrasta o jogador no mapa para escolher o ponto inicial.</p>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <div class="workspace-toolbar">
+        <span>Mapa: <strong id="workspaceMapName">Sala Inicial</strong></span>
+        <span class="hint">Arrasta 🧍 para mudar o spawn</span>
+      </div>
+
+      <div id="viewport" class="viewport">
+        <div id="mapCanvas" class="map-canvas">
+          <div id="gridLayer" class="grid-layer"></div>
+          <div id="spawnMarker" class="spawn-marker" title="Spawn do jogador">
+            <span>🧍</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel right-panel">
+      <div class="panel-section">
+        <div class="eyebrow">PROPRIEDADES</div>
+        <h3>Spawn do jogador</h3>
+
+        <div class="two-cols">
+          <label>
+            X
+            <input id="spawnXInput" type="number" min="0" />
+          </label>
+          <label>
+            Y
+            <input id="spawnYInput" type="number" min="0" />
+          </label>
+        </div>
+
+        <button id="resetSpawnBtn" class="secondary-btn full">Repor no centro</button>
+      </div>
+
+      <div class="panel-section">
+        <div class="eyebrow">VERSÃO 0.1</div>
+        <ul class="feature-list">
+          <li>✓ Projetos</li>
+          <li>✓ Editor de mapa</li>
+          <li>✓ Spawn do jogador</li>
+          <li>✓ Movimento WASD / setas</li>
+          <li>✓ Teste instantâneo</li>
+          <li>✓ Guardado local</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
